@@ -1,0 +1,20 @@
+<li>
+    <h2>{{ post.title }}</h2>
+    <h3>{{ post.date_pub }}</h3>
+    <p>{{ post.body }}</p>
+    <a href="{{ post.get_absolute_url }}">Read</a>
+
+    {% with tags=post.tags.all %}
+        {% if tags %}
+            <h3>Tags:</h3>
+            <ul>
+            {% for tag in tags %}
+                <li>
+                    <a href="{{ tag.get_absolute_url }}">{{ post.title }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </ul>
+</li>
+<hr>
