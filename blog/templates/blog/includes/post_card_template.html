@@ -8,13 +8,14 @@
         {% if tags %}
             <h3>Tags:</h3>
             <ul>
-            {% for tag in tags %}
-                <li>
-                    <a href="{{ tag.get_absolute_url }}">{{ post.title }}</a>
-                </li>
-            {% endfor %}
+                {% for tag in tags %}
+                    <li>
+                        <a href="{{ tag.get_absolute_url }}">{{ post.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
         {% endif %}
     {% endwith %}
-    </ul>
+
 </li>
 <hr>
