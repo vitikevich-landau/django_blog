@@ -16,7 +16,7 @@ class Post(models.Model):
         return reverse('post_details_url', kwargs={'slug': self.slug})
 
     def __str__(self):
-        return f'{self.title or "None"}'
+        return self.title or 'None'
 
 
 class Tag(models.Model):
@@ -28,4 +28,4 @@ class Tag(models.Model):
         return reverse('tag_details_url', kwargs={'slug': self.slug})
 
     def __str__(self):
-        return f'{self.title or "None"}'
+        return self.title or 'None'
