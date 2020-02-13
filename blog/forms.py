@@ -16,7 +16,7 @@ class PostForm(forms.ModelForm):
         }
 
     def clean_slug(self):
-        new_slug = self.cleaned_data['slug'].lower()
+        new_slug = self.cleaned_data.get('slug').lower()
 
         if new_slug == 'create':
             raise ValidationError('Поле slug не может быть "create"')
@@ -35,8 +35,7 @@ class TagForm(forms.ModelForm):
         }
 
     def clean_slug(self):
-        #   use self.cleaned_data.get('slug')
-        new_slug = self.cleaned_data['slug'].lower()
+        new_slug = self.cleaned_data.get('slug').lower()
 
         if new_slug == 'create':
             raise ValidationError('Поле slug не может быть "create"')

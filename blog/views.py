@@ -2,8 +2,20 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 
 from blog.forms import TagForm, PostForm
-from blog.mixins import ObjectDetailMixin, ObjectCreateMixin
+from blog.mixins import ObjectDetailMixin, ObjectCreateMixin, ObjectUpdateMixin
 from blog.models import Post, Tag
+
+
+class PostUpdate(ObjectUpdateMixin, View):
+    model = Post
+    model_form = PostForm
+    template = 'blog/post_update_form.html'
+
+
+class TagUpdate(ObjectUpdateMixin, View):
+    model = Tag
+    model_form = TagForm
+    template = 'blog/tag_update_form.html'
 
 
 class PostDetail(ObjectDetailMixin, View):

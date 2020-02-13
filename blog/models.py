@@ -31,6 +31,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title or 'None'
 
+    class Meta:
+        ordering = ['-date_pub']
+
 
 class Tag(models.Model):
     #   posts

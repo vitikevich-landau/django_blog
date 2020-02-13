@@ -1,6 +1,41 @@
 from django.shortcuts import get_object_or_404, render, redirect
 
 
+class ObjectUpdateMixin:
+    model = None
+    model_form = None
+    template = None
+
+    def get(self, request, slug):
+        #   Вытащить из базы по slug'у
+        obj = self.model.objects.get(slug__iexact=slug)
+        #   Связываем форму с данными из базы
+        bound_form = self.model_form(instance=obj)
+
+        return render(
+            request,
+            # 'blog/tag_update_form.html',
+            self.template,
+            {'form': bound_form, self.model.__name__.lower(): obj}
+        )
+
+    def post(self, request, slug):
+        #   Вытащить из базы по slug'у
+        obj = self.model.objects.get(slug__iexact=slug)
+        #   Связываем форму с данными из базы
+        bound_form = self.model_form(request.POST)
+
+        if bound_form.is_valid():
+            return redirect(bound_form.save())
+
+        return render(
+            request,
+            # 'blog/tag_update_form.html',
+            self.template,
+            {'form': bound_form, self.model.__name__.lower(): obj}
+        )
+
+
 class ObjectDetailMixin:
     model = None
     template = None
