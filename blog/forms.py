@@ -1,15 +1,30 @@
 from django import forms
-from blog.models import Tag
+from blog.models import Tag, Post
 from django.core.exceptions import ValidationError
 
 
-class TagForm(forms.ModelForm):
-    # title = forms.CharField(max_length=50)
-    # slug = forms.CharField(max_length=50)
-    #
-    # title.widget.attrs.update({'class': 'some-class'})
-    # slug.widget.attrs.update({'class': 'some-class'})
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'slug', 'body', 'tags']
 
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'some-class'}),
+            'slug': forms.TextInput(attrs={'class': 'some-class'}),
+            'body': forms.Textarea(attrs={'class': 'some-class'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'some-class'})
+        }
+
+    def clean_slug(self):
+        new_slug = self.cleaned_data['slug'].lower()
+
+        if new_slug == 'create':
+            raise ValidationError('Поле slug не может быть "create"')
+
+        return new_slug
+
+
+class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ['title', 'slug']
@@ -25,6 +40,7 @@ class TagForm(forms.ModelForm):
 
         if new_slug == 'create':
             raise ValidationError('Поле slug не может быть "create"')
+        #   Проверка есть ли такой slug
         if Tag.objects.filter(slug__iexact=new_slug).count():
             raise ValidationError(f'Такой slug "{new_slug}" уже есть')
 
