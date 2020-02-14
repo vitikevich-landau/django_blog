@@ -1,4 +1,27 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+
+
+class ObjectDeleteMixin:
+    model = None
+    template = None
+    redirect_url = None
+
+    def get(self, request, slug):
+        obj = self.model.objects.get(slug__iexact=slug)
+
+        return render(
+            request,
+            # 'blog/tag_delete_form.html',
+            self.template,
+            {self.model.__name__.lower(): obj})
+
+    def post(self, request, slug):
+        obj = self.model.objects.get(slug__iexact=slug)
+        obj.delete()
+
+        #   Redirect after delete
+        return redirect(reverse(self.redirect_url))
 
 
 class ObjectUpdateMixin:

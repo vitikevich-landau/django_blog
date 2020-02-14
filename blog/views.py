@@ -1,9 +1,22 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import View
 
 from blog.forms import TagForm, PostForm
-from blog.mixins import ObjectDetailMixin, ObjectCreateMixin, ObjectUpdateMixin
+from blog.mixins import ObjectDetailMixin, ObjectCreateMixin, ObjectUpdateMixin, ObjectDeleteMixin
 from blog.models import Post, Tag
+
+
+class PostDelete(ObjectDeleteMixin, View):
+    model = Post
+    template = 'blog/post_delete_form.html'
+    redirect_url = 'lists_url'
+
+
+class TagDelete(ObjectDeleteMixin, View):
+    model = Tag
+    template = 'blog/tag_delete_form.html'
+    redirect_url = 'tags_url'
 
 
 class PostUpdate(ObjectUpdateMixin, View):
