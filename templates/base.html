@@ -6,8 +6,14 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    {% block content %}
-        <h2>Default...</h2>
-    {% endblock %}
+{% if request.user.is_authenticated and request.user.is_staff %}
+    <h1>Это видит только админ</h1>
+{% endif %}
+
+
+{% block content %}
+    <h2>Default...</h2>
+{% endblock %}
+
 </body>
 </html>
